@@ -17,7 +17,8 @@ DEST = {"atlanta": (33.75, -84.39), "baltimore": (39.29, -76.61), "boston": (42.
         "dallas": (32.78, -96.80), "los angeles": (34.05, -118.24), "miami": (25.76, -80.19), "new york": (40.71, -74.01),
         "philadelphia": (39.95, -75.17), "seattle": (47.61, -122.33)}
 # AMS shipping districts, matched by keyword, most specific first. Unmatched origins are skipped and listed.
-ORIGIN = [("nogales", (31.34, -110.94)), ("otay", (32.55, -116.94)), ("mcallen", (26.20, -98.23)), ("pharr", (26.20, -98.18)),
+ORIGIN = [("central coast california", (36.30, -121.30)), ("south and central district california", (34.20, -119.18)),
+          ("nogales", (31.34, -110.94)), ("otay", (32.55, -116.94)), ("mcallen", (26.20, -98.23)), ("pharr", (26.20, -98.18)),
           ("rio grande", (26.20, -98.23)), ("mexico crossings through texas", (26.20, -98.23)), ("south texas", (26.90, -98.50)),
           ("salinas", (36.68, -121.66)), ("watsonville", (36.91, -121.76)), ("oxnard", (34.20, -119.18)), ("santa maria", (34.95, -120.44)),
           ("kern", (35.37, -119.02)), ("san joaquin", (36.74, -119.79)), ("sacramento", (38.58, -121.49)), ("imperial", (32.79, -115.56)),
@@ -176,6 +177,7 @@ def main(weeks, budget, radius):
            "- Every lane in a week is treated as available. Real load boards are thinner, and this is a test of the picking rule, not of supply.",
            "- Empty miles are straight-line distance times 1.2. Loading time, hours of service and fuel cost per mile beyond the mileage budget are not modeled.",
            "- Each week starts fresh at each destination city, so a bad Friday never carries into Monday.",
+           "- USDA covers produce leaving growing regions, so there are no loads out of the ten receiving cities. Every rule drives empty from a city back to a growing region, which is why empty miles run above 50% for all three. Real drivers would cover part of that with other freight.",
            "- The planner sees the whole week's posted lane rates in advance. Greedy and all-in see the same rates but pick one load at a time, so the planner is the ceiling for planning on this data.",
            f"- Origins matched to coordinates by district name; {len(unmatched)} unmatched districts were skipped" + (f": {', '.join(unmatched[:8])}{'...' if len(unmatched) > 8 else ''}." if unmatched else ".")]
     out = "\n".join(md); (ROOT / "results").mkdir(exist_ok=True); (ROOT / "results" / f"{dt.date.today()}.md").write_text(out, encoding="utf-8"); print(out)

@@ -11,7 +11,31 @@ A load with a great rate per mile can end in a city with nothing to haul out, an
 ## Results
 
 <!-- results:start -->
-_Run it to populate._
+# rpm-trap on USDA reefer lane rates, 2026-10-19
+
+51 weeks of USDA AgTransport refrigerated truck rates, 3251 lane-weeks. Each week a driver starts at each of the 10 USDA destination cities with 2,750 miles to drive, loaded plus empty, and picks loads by one of three rules. Revenue is the midpoint of USDA's weekly rate range per load.
+
+| How the next load is picked | Revenue per week | Revenue per total mile | Empty miles | Loads per week |
+|---|---|---|---|---|
+| Highest loaded RPM within 250 empty miles | $10,508 | $4.20 | 53% | 5.9 |
+| Highest all-in RPM, counting empty miles | $9,737 | $3.96 | 49% | 4.2 |
+| Best chain of loads for the whole week, planned exactly | $11,742 | $4.40 | 50% | 5.7 |
+
+**Planning the week earned +12% per week against chasing the highest RPM, on the same miles. Counting empty miles alone gave -7%.**
+
+## Calibration
+
+USDA publishes its own rate per mile for each row. Midpoint over distance, as computed here, matched it with a median error of 0.00%.
+
+## Honest limits
+
+- USDA rates are produce reefer spot rates paid by shippers, including broker fees. A driver nets less, but every rule is paid the same way, so the comparison holds.
+- Every lane in a week is treated as available. Real load boards are thinner, and this is a test of the picking rule, not of supply.
+- Empty miles are straight-line distance times 1.2. Loading time, hours of service and fuel cost per mile beyond the mileage budget are not modeled.
+- Each week starts fresh at each destination city, so a bad Friday never carries into Monday.
+- USDA covers produce leaving growing regions, so there are no loads out of the ten receiving cities. Every rule drives empty from a city back to a growing region, which is why empty miles run above 50% for all three. Real drivers would cover part of that with other freight.
+- The planner sees the whole week's posted lane rates in advance. Greedy and all-in see the same rates but pick one load at a time, so the planner is the ceiling for planning on this data.
+- Origins matched to coordinates by district name; 0 unmatched districts were skipped.
 <!-- results:end -->
 
 ## Data
